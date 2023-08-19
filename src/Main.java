@@ -1,10 +1,8 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Main {
+
     public static void main(String[] args) {
 
         System.out.println("\nBasic concepts with streams\n");
@@ -58,6 +56,49 @@ public class Main {
 
 
         System.out.println("\nAdvanced concepts with streams\n");
+
+        System.out.println("\nComparison Based Stream Operations");
+
+        System.out.println("\nSorted");
+        employees.stream()
+                .sorted((e1, e2) -> e1.getName().compareTo(e2.getName()))
+                .collect(Collectors.toList())
+                .forEach(System.out::println);
+
+
+        System.out.println("\nMax");
+        Optional<Employee> richestEmployee = employees.stream()
+                .max((e1, e2) -> (int) (e1.getMoney() - e2.getMoney()));
+        System.out.println("Employee with most money " + richestEmployee);
+
+        System.out.println("\nMin");
+        Optional<Employee> poorestEmployee = employees.stream()
+                .min((e1, e2) -> (int) (e1.getMoney() - e2.getMoney()));
+        System.out.println("Employee with fewest money " + poorestEmployee);
+
+        System.out.println("\nDistinct");
+        List<Integer> listWithDuplicates = Arrays.asList(1,1,2,3);
+        List<Integer> listWithoutDuplicates = listWithDuplicates.stream()
+                .distinct()
+                .collect(Collectors.toList());
+        listWithoutDuplicates.stream().forEach(System.out::println);
+
+
+        System.out.println("\nallMatch, anyMatch, and noneMatch");
+        boolean isJeffBezos = employees.stream()
+                .anyMatch(employee -> employee.getName().contains("Jeff"));
+        System.out.println(isJeffBezos);
+
+        boolean isAntrepreneur = antrepreneurs.stream()
+                .allMatch(antrepreneur -> antrepreneur.getOcupation().equals("Antrepreneur"));
+        System.out.println(isAntrepreneur);
+
+        boolean isBrokie = antrepreneurs.stream()
+                .noneMatch(brokie -> brokie.getMoney() > 999999999);
+        System.out.println(isBrokie);
+
+
+
 
     }
 }
